@@ -7,6 +7,8 @@ private:
 	double B;
 	
 	double x;
+	
+	double f;
 
 public:
 	
@@ -17,6 +19,7 @@ public:
 		B = b;
 		x = x0;
 		u_ = 0;
+		f = 0;
 	}
 	
 	void setInput(double u) {
@@ -26,6 +29,15 @@ public:
 	double getStates(double x) {
 		return A*x*B*u_;
 	}		
+	
+	void distrub() {
+		f = 10;
+		//to do random function or input?
+	}
+	
+	void update() {
+		tickSimul()
+	}
 	
 	
 	// simulates step of system

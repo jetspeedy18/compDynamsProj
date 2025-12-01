@@ -5,6 +5,10 @@
 #include <chrono>
 #include "system.cpp"
 
+#include "matplotlibcpp.h"
+
+namespace plt = matplotlibcpp;
+
 #define TICK_SPEED 60 //Hz to limit loop to
 #define DISTURBANCE_CHANCE 250 //what are the odds of getting a distrubance this cycle
 
@@ -20,6 +24,8 @@ int main(){
 	System model = System();
 	
 	auto past = std::chrono::high_resolution_clock::now();
+	auto start = past;
+	std::vector<double> t, y;
 	
 	bool runing = true;
 	while (runing) {
@@ -31,13 +37,27 @@ int main(){
 			// Dirac function aplplied as input
 			
 			std::cout << "Dirac" << std::endl;
+			model.disturb();
 			
-		}
-		
+		} 
+				
 			
 		// get pid values
 		// TODO// run model
-		///model.update()
+		model.update();
+		//save values
+		double t_ = (past-start)/1000000000; //units [seconds]
+		t.push_back(t_);
+		y.push_back(model.gety());
+		
+		//lets do some graphing - example of continous matplotlibcpp located at
+		//https://github.com/lava/matplotlib-cpp/blob/master/examples/animation.cpp
+		plt::clf();
+		plt::plot(t,y);
+		// todo standardaize limits and 
+		
+		
+
 		
 		// key commands (WINDOWS IMPLEMENTED ONLY RN)
 		// other OS these inputs will not work
